@@ -1,5 +1,7 @@
 # Tech Radar
 [![Build & Deploy Tech Radar](https://github.com/Coda-Dijon/tech-radar/actions/workflows/build.yml/badge.svg)](https://github.com/Coda-Dijon/tech-radar/actions/workflows/build.yml)
+[![Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-blue.svg)](https://claude.ai/code)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Générateur de site statique pour un radar technologique basé sur Markdown.
 
