@@ -1,4 +1,5 @@
 # Tech Radar
+[![Build & Deploy Tech Radar](https://github.com/Coda-Dijon/tech-radar/actions/workflows/build.yml/badge.svg)](https://github.com/Coda-Dijon/tech-radar/actions/workflows/build.yml)
 
 Générateur de site statique pour un radar technologique basé sur Markdown.
 
@@ -36,14 +37,14 @@ Corps libre de l'article...
 
 ### Définition des rings
 
-| Ring | Signification |
-|------|--------------|
-| **adopt** | Nous l'utilisons en production, nous le recommandons |
-| **trial** | Nous testons activement, résultats prometteurs |
-| **assess** | À surveiller, mérite une évaluation approfondie |
-| **hold** | À éviter pour de nouveaux projets |
+| Ring                      | Signification                                                                                              |
+|---------------------------|------------------------------------------------------------------------------------------------------------|
+| **adopt**                 | We have capacity to use these solutions, already deployed in production. First choices for new projects.   |
+| **can use**               | Pertinence demonstrated. You can use it on your project but must justify not using the default choice.     |
+| **assess**                | May bring value. Needs to be assessed and tested in our environment to confirm or reject this vision.      |
+| **deprecated / rejected** | For various reasons these solutions are no longer recommended — use only for maintenance of existing code. |
 
-## Développement local
+## Développement
 
 ```bash
 npm install
