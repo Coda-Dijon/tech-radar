@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": ".tsbuild",
+    "rootDir": "."
+  },
+  "include": ["build.ts"],
+  "exclude": ["node_modules", "dist", ".tsbuild"]
+}
