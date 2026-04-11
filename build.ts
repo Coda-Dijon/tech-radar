@@ -12,6 +12,10 @@ import { renderIndexPage, renderItemPage, renderQuadrantPage } from './src/templ
 const __dirname  = dirname(fileURLToPath(import.meta.url));
 const VALIDATE_ONLY = process.argv.includes('--validate-only');
 
+/** Root-relative base path for the deployed site, e.g. "/tech-radar" (no trailing slash).
+ *  Set via BASE_URL env var. Defaults to '' (served at domain root). */
+const BASE_PATH = (process.env.BASE_URL ?? '').replace(/\/$/, '');
+
 // ── Schema Zod ────────────────────────────────────────────────────────────────
 
 const ItemSchema = z.object({
@@ -78,7 +82,7 @@ function readAllContent(): { items: Item[]; errors: BuildError[] } {
       }
 
       const slug    = basename(file, '.md');
-      const itemUrl = `/${quadrant}/${slug}/`;
+      const itemUrl = `${BASE_PATH}/${quadrant}/${slug}/`;
       const rawBody = marked(parsed.content ?? '') as string;
       items.push({
         ...result.data,
@@ -254,19 +258,19 @@ function build(): void {
   const assetCount = copyAssets(dist, items);
   if (assetCount > 0) console.log(`  ✓ ${assetCount} static asset${assetCount > 1 ? 's' : ''} copied`);
 
-  write(join(dist, 'index.html'), renderIndexPage(items, minCSS, minJS));
+  write(join(dist, 'index.html'), renderIndexPage(items, minCSS, minJS, BASE_PATH));
   console.log('  ✓ dist/index.html');
 
   write(join(dist, 'data.json'), JSON.stringify(items, null, 2));
   console.log('  ✓ dist/data.json');
 
   for (const item of items) {
-    write(join(dist, item.quadrant, item.slug, 'index.html'), renderItemPage(item, items, minCSS));
+    write(join(dist, item.quadrant, item.slug, 'index.html'), renderItemPage(item, items, minCSS, BASE_PATH));
     console.log(`  ✓ dist${item.url}index.html`);
   }
 
   for (const quadrant of QUADRANTS) {
-    write(join(dist, quadrant, 'index.html'), renderQuadrantPage(quadrant as Quadrant, items, minCSS));
+    write(join(dist, quadrant, 'index.html'), renderQuadrantPage(quadrant as Quadrant, items, minCSS, BASE_PATH));
     console.log(`  ✓ dist/${quadrant}/index.html`);
   }
 

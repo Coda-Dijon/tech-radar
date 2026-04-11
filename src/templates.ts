@@ -10,13 +10,15 @@ export function escHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-const SHARED_HEAD = `<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+function sharedHead(base: string): string {
+  return `<link rel="icon" href="${base}/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">`;
+}
 
-function header(extra = ''): string {
+function header(base: string, extra = ''): string {
   return `<header role="banner">
-  <a class="logo" href="/" aria-label="Tech Radar — Home">
+  <a class="logo" href="${base}/" aria-label="Tech Radar — Home">
     <span class="logo-icon" aria-hidden="true">◉</span>
     Tech <span class="logo-text">Radar</span>
   </a>
@@ -39,7 +41,7 @@ function tagsHtml(tags: string[]): string {
 
 // ── Page d'accueil (radar interactif) ────────────────────────────────────────
 
-export function renderIndexPage(items: Item[], minCSS: string, minJS: string): string {
+export function renderIndexPage(items: Item[], minCSS: string, minJS: string, base: string): string {
   const legend = ([...RINGS] as Ring[])
     .map(r => `
       <div class="leg-card" role="listitem" tabindex="0"
@@ -75,12 +77,12 @@ export function renderIndexPage(items: Item[], minCSS: string, minJS: string): s
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tech Radar — Coda</title>
 <meta name="description" content="Coda's tech radar — ${items.length} technologies assessed">
-${SHARED_HEAD}
+${sharedHead(base)}
 <style>${minCSS}</style>
 </head>
 <body>
 <a href="#radar" class="skip-link">Skip to radar</a>
-${header(tabs)}
+${header(base, tabs)}
 
 <main id="main-content">
   <div class="radar-area">
@@ -112,7 +114,7 @@ ${header(tabs)}
 
 // ── Item detail page ──────────────────────────────────────────────────────────
 
-export function renderItemPage(item: Item, allItems: Item[], minCSS: string): string {
+export function renderItemPage(item: Item, allItems: Item[], minCSS: string, base: string): string {
   const related = allItems
     .filter(i => i.quadrant === item.quadrant && i.slug !== item.slug)
     .slice(0, 4);
@@ -138,16 +140,16 @@ export function renderItemPage(item: Item, allItems: Item[], minCSS: string): st
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escHtml(item.title)} — Tech Radar Coda</title>
 <meta name="description" content="${escHtml(item.description)}">
-${SHARED_HEAD}
+${sharedHead(base)}
 <style>${minCSS}body{display:block;height:auto;min-height:100dvh;overflow-y:auto}main{display:block}</style>
 </head>
 <body>
-${header()}
+${header(base)}
 <main>
 <article class="page-wrap" aria-labelledby="item-title">
   <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Radar</a><span class="bc-sep" aria-hidden="true">›</span>
-    <a href="/${item.quadrant}/">${escHtml(QUADRANT_NAMES[item.quadrant])}</a><span class="bc-sep" aria-hidden="true">›</span>
+    <a href="${base}/">Radar</a><span class="bc-sep" aria-hidden="true">›</span>
+    <a href="${base}/${item.quadrant}/">${escHtml(QUADRANT_NAMES[item.quadrant])}</a><span class="bc-sep" aria-hidden="true">›</span>
     <span aria-current="page">${escHtml(item.title)}</span>
   </nav>
   <h1 id="item-title" class="detail-title">${escHtml(item.title)}</h1>
@@ -168,7 +170,7 @@ ${header()}
 
 // ── Quadrant index page ───────────────────────────────────────────────────────
 
-export function renderQuadrantPage(quadrant: Quadrant, allItems: Item[], minCSS: string): string {
+export function renderQuadrantPage(quadrant: Quadrant, allItems: Item[], minCSS: string, base: string): string {
   const items = allItems.filter(i => i.quadrant === quadrant);
   const name  = QUADRANT_NAMES[quadrant];
   const count = items.length;
@@ -201,15 +203,15 @@ export function renderQuadrantPage(quadrant: Quadrant, allItems: Item[], minCSS:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escHtml(name)} — Tech Radar Coda</title>
 <meta name="description" content="${count} technologies assessed in ${escHtml(name)}">
-${SHARED_HEAD}
+${sharedHead(base)}
 <style>${minCSS}body{display:block;height:auto;min-height:100dvh;overflow-y:auto}main{display:block}</style>
 </head>
 <body>
-${header()}
+${header(base)}
 <main>
   <header class="qpage-header">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Radar</a><span class="bc-sep" aria-hidden="true">›</span>
+      <a href="${base}/">Radar</a><span class="bc-sep" aria-hidden="true">›</span>
       <span aria-current="page">${escHtml(name)}</span>
     </nav>
     <h1 class="qpage-title">${escHtml(name)}</h1>

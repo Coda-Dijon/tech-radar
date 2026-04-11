@@ -3,6 +3,8 @@
 
 Générateur de site statique pour un radar technologique basé sur Markdown.
 
+![Tech Radar Coda](img/tech-radar.webp)
+
 ## Ajouter un item en 5 minutes
 
 1. Créer un fichier dans `content/<quadrant>/nom-technologie.md`
