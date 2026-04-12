@@ -252,25 +252,28 @@ function build(): void {
   const dist = join(__dirname, 'dist');
   ensureDir(dist);
 
+  write(join(dist, 'style.css'), minCSS);
+  console.log('  ✓ dist/style.css');
+
   copyFile(join(__dirname, 'src/favicon.svg'), join(dist, 'favicon.svg'));
   console.log('  ✓ dist/favicon.svg');
 
   const assetCount = copyAssets(dist, items);
   if (assetCount > 0) console.log(`  ✓ ${assetCount} static asset${assetCount > 1 ? 's' : ''} copied`);
 
-  write(join(dist, 'index.html'), renderIndexPage(items, minCSS, minJS, BASE_PATH));
+  write(join(dist, 'index.html'), renderIndexPage(items, minJS, BASE_PATH));
   console.log('  ✓ dist/index.html');
 
   write(join(dist, 'data.json'), JSON.stringify(items, null, 2));
   console.log('  ✓ dist/data.json');
 
   for (const item of items) {
-    write(join(dist, item.quadrant, item.slug, 'index.html'), renderItemPage(item, items, minCSS, BASE_PATH));
+    write(join(dist, item.quadrant, item.slug, 'index.html'), renderItemPage(item, items, BASE_PATH));
     console.log(`  ✓ dist${item.url}index.html`);
   }
 
   for (const quadrant of QUADRANTS) {
-    write(join(dist, quadrant, 'index.html'), renderQuadrantPage(quadrant as Quadrant, items, minCSS, BASE_PATH));
+    write(join(dist, quadrant, 'index.html'), renderQuadrantPage(quadrant as Quadrant, items, BASE_PATH));
     console.log(`  ✓ dist/${quadrant}/index.html`);
   }
 

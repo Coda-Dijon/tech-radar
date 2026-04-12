@@ -12,6 +12,7 @@ export function escHtml(s: string): string {
 
 function sharedHead(base: string): string {
   return `<link rel="icon" href="${base}/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="${base}/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">`;
 }
@@ -41,7 +42,7 @@ function tagsHtml(tags: string[]): string {
 
 // ── Page d'accueil (radar interactif) ────────────────────────────────────────
 
-export function renderIndexPage(items: Item[], minCSS: string, minJS: string, base: string): string {
+export function renderIndexPage(items: Item[], minJS: string, base: string): string {
   const legend = ([...RINGS] as Ring[])
     .map(r => `
       <div class="leg-card" role="listitem" tabindex="0"
@@ -78,7 +79,6 @@ export function renderIndexPage(items: Item[], minCSS: string, minJS: string, ba
 <title>Tech Radar — Coda</title>
 <meta name="description" content="Coda's tech radar — ${items.length} technologies assessed">
 ${sharedHead(base)}
-<style>${minCSS}</style>
 </head>
 <body>
 <a href="#radar" class="skip-link">Skip to radar</a>
@@ -114,7 +114,7 @@ ${header(base, tabs)}
 
 // ── Item detail page ──────────────────────────────────────────────────────────
 
-export function renderItemPage(item: Item, allItems: Item[], minCSS: string, base: string): string {
+export function renderItemPage(item: Item, allItems: Item[], base: string): string {
   const related = allItems
     .filter(i => i.quadrant === item.quadrant && i.slug !== item.slug)
     .slice(0, 4);
@@ -141,7 +141,7 @@ export function renderItemPage(item: Item, allItems: Item[], minCSS: string, bas
 <title>${escHtml(item.title)} — Tech Radar Coda</title>
 <meta name="description" content="${escHtml(item.description)}">
 ${sharedHead(base)}
-<style>${minCSS}body{display:block;height:auto;min-height:100dvh;overflow-y:auto}main{display:block}</style>
+<style>body{display:block;height:auto;min-height:100dvh;overflow-y:auto}main{display:block}</style>
 </head>
 <body>
 ${header(base)}
@@ -170,7 +170,7 @@ ${header(base)}
 
 // ── Quadrant index page ───────────────────────────────────────────────────────
 
-export function renderQuadrantPage(quadrant: Quadrant, allItems: Item[], minCSS: string, base: string): string {
+export function renderQuadrantPage(quadrant: Quadrant, allItems: Item[], base: string): string {
   const items = allItems.filter(i => i.quadrant === quadrant);
   const name  = QUADRANT_NAMES[quadrant];
   const count = items.length;
@@ -204,7 +204,7 @@ export function renderQuadrantPage(quadrant: Quadrant, allItems: Item[], minCSS:
 <title>${escHtml(name)} — Tech Radar Coda</title>
 <meta name="description" content="${count} technologies assessed in ${escHtml(name)}">
 ${sharedHead(base)}
-<style>${minCSS}body{display:block;height:auto;min-height:100dvh;overflow-y:auto}main{display:block}</style>
+<style>body{display:block;height:auto;min-height:100dvh;overflow-y:auto}main{display:block}</style>
 </head>
 <body>
 ${header(base)}
