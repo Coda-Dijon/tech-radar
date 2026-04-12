@@ -42,7 +42,7 @@ function tagsHtml(tags: string[]): string {
 
 // ── Page d'accueil (radar interactif) ────────────────────────────────────────
 
-export function renderIndexPage(items: Item[], minJS: string, base: string): string {
+export function renderIndexPage(items: Item[], base: string): string {
   const legend = ([...RINGS] as Ring[])
     .map(r => `
       <div class="leg-card" role="listitem" tabindex="0"
@@ -107,7 +107,7 @@ ${header(base, tabs)}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
-<script>${minJS}</script>
+<script src="${base}/client.js" defer></script>
 </body>
 </html>`;
 }

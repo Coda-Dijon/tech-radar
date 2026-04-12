@@ -255,13 +255,16 @@ function build(): void {
   write(join(dist, 'style.css'), minCSS);
   console.log('  ✓ dist/style.css');
 
+  write(join(dist, 'client.js'), minJS);
+  console.log('  ✓ dist/client.js');
+
   copyFile(join(__dirname, 'src/favicon.svg'), join(dist, 'favicon.svg'));
   console.log('  ✓ dist/favicon.svg');
 
   const assetCount = copyAssets(dist, items);
   if (assetCount > 0) console.log(`  ✓ ${assetCount} static asset${assetCount > 1 ? 's' : ''} copied`);
 
-  write(join(dist, 'index.html'), renderIndexPage(items, minJS, BASE_PATH));
+  write(join(dist, 'index.html'), renderIndexPage(items, BASE_PATH));
   console.log('  ✓ dist/index.html');
 
   write(join(dist, 'data.json'), JSON.stringify(items, null, 2));
