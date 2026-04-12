@@ -66,3 +66,19 @@ npm run dev     # build + serveur local sur http://localhost:3000
 ```bash
 npm run validate   # vérifie tous les frontmatters, fail si erreur
 ```
+
+## Docker
+
+```bash
+# Build de l'image
+docker build -t tech-radar .
+
+# Lancer le container (disponible sur http://localhost:8080)
+docker run -p 8080:80 tech-radar
+```
+
+Avec un `BASE_URL` personnalisé (ex. sous-chemin GitHub Pages) :
+
+```bash
+docker build --build-arg BASE_URL=/tech-radar -t tech-radar .
+```
