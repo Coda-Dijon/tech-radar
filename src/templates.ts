@@ -46,8 +46,8 @@ export function renderIndexPage(items: Item[], base: string): string {
       <div class="leg-card" role="listitem" tabindex="0"
            data-tooltip="${escHtml(RING_DESCRIPTIONS[r])}"
            aria-label="${escHtml(RING_LABELS[r])}: ${escHtml(RING_DESCRIPTIONS[r])}">
-        <span class="leg-dot" style="background:${ringColor(r)}" aria-hidden="true"></span>
-        <span class="leg-name" style="color:${ringColor(r)}">${escHtml(RING_LABELS[r])}</span>
+        <span class="leg-dot ${r}" aria-hidden="true"></span>
+        <span class="leg-name ${r}">${escHtml(RING_LABELS[r])}</span>
       </div>`)
     .join('');
 
@@ -125,7 +125,7 @@ export function renderItemPage(item: Item, allItems: Item[], base: string): stri
       <li role="listitem">
         <a href="${r.url}" class="related-card">
           <div class="related-card-title">${escHtml(r.title)}</div>
-          <div class="related-card-meta" style="color:${ringColor(r.ring)}">${escHtml(RING_LABELS[r.ring])}</div>
+          <div class="related-card-meta ${r.ring}">${escHtml(RING_LABELS[r.ring])}</div>
         </a>
       </li>`).join('')}
     </ul>
@@ -139,9 +139,8 @@ export function renderItemPage(item: Item, allItems: Item[], base: string): stri
 <title>${escHtml(item.title)} — Tech Radar Coda</title>
 <meta name="description" content="${escHtml(item.description)}">
 ${sharedHead(base)}
-<style>body{display:block;height:auto;min-height:100dvh;overflow-y:auto}main{display:block}</style>
 </head>
-<body>
+<body class="is-page">
 ${header(base)}
 <main>
 <article class="page-wrap" aria-labelledby="item-title">
@@ -202,9 +201,8 @@ export function renderQuadrantPage(quadrant: Quadrant, allItems: Item[], base: s
 <title>${escHtml(name)} — Tech Radar Coda</title>
 <meta name="description" content="${count} technologies assessed in ${escHtml(name)}">
 ${sharedHead(base)}
-<style>body{display:block;height:auto;min-height:100dvh;overflow-y:auto}main{display:block}</style>
 </head>
-<body>
+<body class="is-page">
 ${header(base)}
 <main>
   <header class="qpage-header">

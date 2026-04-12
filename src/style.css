@@ -177,6 +177,20 @@ header[role="banner"] {
 
 main { display: flex; flex: 1; min-height: 0; overflow: hidden; }
 
+/* Static content pages (item, quadrant) override the radar layout */
+body.is-page                { display: block; height: auto; min-height: 100dvh; overflow-y: auto; }
+body.is-page main           { display: block; }
+
+/* Ring utility classes — used instead of inline style= attributes */
+.leg-dot.adopt,   .ring-bg-adopt   { background: var(--adopt); }
+.leg-dot.can-use, .ring-bg-can-use { background: var(--can-use); }
+.leg-dot.assess,  .ring-bg-assess  { background: var(--assess); }
+.leg-dot.hold,    .ring-bg-hold    { background: var(--hold); }
+.leg-name.adopt,   .related-card-meta.adopt,   .ring-color-adopt   { color: var(--adopt); }
+.leg-name.can-use, .related-card-meta.can-use, .ring-color-can-use { color: var(--can-use); }
+.leg-name.assess,  .related-card-meta.assess,  .ring-color-assess  { color: var(--assess); }
+.leg-name.hold,    .related-card-meta.hold,    .ring-color-hold    { color: var(--hold); }
+
 .radar-area {
   flex: 1;
   min-width: 0;
