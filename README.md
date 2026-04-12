@@ -3,6 +3,10 @@
 [![Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-blue.svg)](https://claude.ai/code)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+<a href="https://bff.ecoindex.fr/redirect/?url=https://coda-dijon.github.io/tech-radar/" target="_blank">
+    <img src="https://bff.ecoindex.fr/badge/?theme=dark&url=https://coda-dijon.github.io/tech-radar/" alt="Ecoindex Badge" />
+</a>
+
 Générateur de site statique pour un radar technologique basé sur Markdown.
 
 ![Tech Radar Coda](img/tech-radar.webp)
