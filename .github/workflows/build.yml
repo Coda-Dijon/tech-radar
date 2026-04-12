@@ -52,5 +52,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: GreenIT Analysis
-        uses: ythirion/greenit-analysis-action@0.1.0

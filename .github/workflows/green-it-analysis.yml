@@ -1,0 +1,23 @@
+name: Green IT
+
+on:
+  workflow_run:
+    workflows: ["Build & Deploy Tech Radar"]
+    types:
+      - completed
+
+jobs:
+  greenit:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout same commit
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          
+      - name: GreenIT Analysis
+        uses: ythirion/greenit-analysis-action@0.1.0
+        with:
+          min-ecoindex: 90
