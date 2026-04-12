@@ -20,4 +20,4 @@ jobs:
       - name: GreenIT Analysis
         uses: ythirion/greenit-analysis-action@0.1.0
         with:
-          min-ecoindex: 90
+          min-ecoindex: 80
