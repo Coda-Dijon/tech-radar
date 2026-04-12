@@ -31,7 +31,7 @@ content/
 ```yaml
 ---
 title: Nom de la technologie
-ring: adopt          # adopt | trial | assess | hold
+ring: adopt          # adopt | can-use | assess | hold
 quadrant: tools      # languages-frameworks | platforms | techniques | tools
 tags: [tag1, tag2]
 date: 2024-01-15     # YYYY-MM-DD

@@ -8,7 +8,7 @@
   --muted:        #8877bb;
   --dim:          #342068;
   --adopt:        #ddf849;
-  --trial:        #2d62ff;
+  --can-use:      #2d62ff;
   --assess:       #dd23bb;
   --hold:         #707080;
   --accent:       #ddf849;
@@ -236,7 +236,7 @@ main { display: flex; flex: 1; min-height: 0; overflow: hidden; }
   letter-spacing: .5px;
 }
 .badge-adopt  { background: rgba(221, 248,  73, .15); color: var(--adopt); }
-.badge-trial  { background: rgba( 45,  98, 255, .15); color: var(--trial); }
+.badge-can-use { background: rgba( 45,  98, 255, .15); color: var(--can-use); }
 .badge-assess { background: rgba(221,  35, 187, .15); color: var(--assess); }
 .badge-hold   { background: rgba(112, 112, 128, .15); color: var(--hold); }
 .badge-q      { background: rgba( 75,   0, 235, .15); color: #a78bfa; }
@@ -340,7 +340,7 @@ main { display: flex; flex: 1; min-height: 0; overflow: hidden; }
   border-bottom: 1px solid var(--border);
 }
 .ring-title.adopt  { color: var(--adopt); }
-.ring-title.trial  { color: var(--trial); }
+.ring-title.can-use { color: var(--can-use); }
 .ring-title.assess { color: var(--assess); }
 .ring-title.hold   { color: var(--hold); }
 
@@ -463,7 +463,7 @@ main { display: flex; flex: 1; min-height: 0; overflow: hidden; }
   border-left: 3px solid;
 }
 .q-ring-title.adopt  { border-color: var(--adopt);  color: var(--adopt); }
-.q-ring-title.trial  { border-color: var(--trial);  color: var(--trial); }
+.q-ring-title.can-use { border-color: var(--can-use); color: var(--can-use); }
 .q-ring-title.assess { border-color: var(--assess); color: var(--assess); }
 .q-ring-title.hold   { border-color: var(--hold);   color: var(--hold); }
 

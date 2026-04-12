@@ -1,6 +1,6 @@
 ---
 title: Event Sourcing
-ring: trial
+ring: can-use
 quadrant: techniques
 tags: [architecture, cqrs, event-driven, ddd]
 date: 2024-03-01

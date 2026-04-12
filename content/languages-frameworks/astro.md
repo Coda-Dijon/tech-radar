@@ -1,6 +1,6 @@
 ---
 title: Astro
-ring: trial
+ring: can-use
 quadrant: languages-frameworks
 tags: [frontend, ssg, islands, performance]
 date: 2024-03-10

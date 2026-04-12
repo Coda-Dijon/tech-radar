@@ -1,6 +1,6 @@
 ---
 title: Bun
-ring: trial
+ring: can-use
 quadrant: tools
 tags: [runtime, javascript, bundler, performance]
 date: 2024-03-20

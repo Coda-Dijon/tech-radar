@@ -1,6 +1,6 @@
 ---
 title: Kotlin
-ring: trial
+ring: can-use
 quadrant: languages-frameworks
 tags: [jvm, android, backend, multiplatform]
 date: 2024-02-15

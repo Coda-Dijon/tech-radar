@@ -1,6 +1,6 @@
 ---
 title: Swift
-ring: trial
+ring: can-use
 quadrant: languages-frameworks
 tags: [ios, apple, systems, open-source]
 date: 2024-02-20

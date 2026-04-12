@@ -1,6 +1,6 @@
 ---
 title: Rust
-ring: trial
+ring: can-use
 quadrant: languages-frameworks
 tags: [systems, performance, memory-safety, wasm]
 date: 2024-03-10

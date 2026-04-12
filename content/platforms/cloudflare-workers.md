@@ -1,6 +1,6 @@
 ---
 title: Cloudflare Workers
-ring: trial
+ring: can-use
 quadrant: platforms
 tags: [edge, serverless, cdn, javascript]
 date: 2024-02-20

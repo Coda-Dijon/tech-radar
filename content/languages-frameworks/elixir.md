@@ -1,6 +1,6 @@
 ---
 title: Elixir
-ring: trial
+ring: can-use
 quadrant: languages-frameworks
 tags: [functional, concurrency, phoenix, erlang]
 date: 2024-03-01

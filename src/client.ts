@@ -72,7 +72,7 @@ const QUADRANT_ANGLES: Record<Quadrant, [number, number]> = {
 
 const RING_BOUNDS: Record<Ring, [number, number]> = {
   adopt:  [15, 90],
-  trial:  [112, 188],
+  'can-use': [112, 188],
   assess: [212, 288],
   hold:   [312, 370],
 };
