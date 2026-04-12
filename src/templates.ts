@@ -12,9 +12,7 @@ export function escHtml(s: string): string {
 
 function sharedHead(base: string): string {
   return `<link rel="icon" href="${base}/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="${base}/style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">`;
+<link rel="stylesheet" href="${base}/style.css">`;
 }
 
 function header(base: string, extra = ''): string {
@@ -106,7 +104,7 @@ ${header(base, tabs)}
   <div class="tip-meta"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+<script src="${base}/fuse.min.js"></script>
 <script src="${base}/client.js" defer></script>
 </body>
 </html>`;
