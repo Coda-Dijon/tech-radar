@@ -5,12 +5,12 @@
   --surface2:     #18095a;
   --border:       #2a1668;
   --text:         #ffffff;
-  --muted:        #8877bb;
+  --muted:        #9788c3;
   --dim:          #342068;
   --adopt:        #ddf849;
-  --can-use:      #2d62ff;
+  --can-use:      #6680ff;
   --assess:       #dd23bb;
-  --hold:         #707080;
+  --hold:         #8a8a99;
   --accent:       #ddf849;
   --accent-hover: #c8e020;
   --purple:       #4b00eb;
@@ -236,7 +236,7 @@ main { display: flex; flex: 1; min-height: 0; overflow: hidden; }
   letter-spacing: .5px;
 }
 .badge-adopt  { background: rgba(221, 248,  73, .15); color: var(--adopt); }
-.badge-can-use { background: rgba( 45,  98, 255, .15); color: var(--can-use); }
+.badge-can-use { background: rgba(102, 128, 255, .15); color: var(--can-use); }
 .badge-assess { background: rgba(221,  35, 187, .15); color: var(--assess); }
 .badge-hold   { background: rgba(112, 112, 128, .15); color: var(--hold); }
 .badge-q      { background: rgba( 75,   0, 235, .15); color: #a78bfa; }

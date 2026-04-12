@@ -20,7 +20,7 @@ function header(base: string, extra = ''): string {
   return `<header role="banner">
   <a class="logo" href="${base}/" aria-label="Tech Radar — Home">
     <span class="logo-icon" aria-hidden="true">◉</span>
-    Tech <span class="logo-text">Radar</span>
+    <span class="logo-text">Tech Radar</span>
   </a>
   ${extra}
 </header>`;
