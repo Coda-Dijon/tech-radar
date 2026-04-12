@@ -1,0 +1,6 @@
+- name: 'Radar'
+  url: 'https://coda-dijon.github.io/tech-radar/'
+- name: 'Languages & Frameworks'
+  url: 'https://coda-dijon.github.io/tech-radar/languages-frameworks/'
+- name: 'Details page'
+  url: 'https://coda-dijon.github.io/tech-radar/languages-frameworks/nextjs/'

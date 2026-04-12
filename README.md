@@ -7,12 +7,12 @@ Générateur de site statique pour un radar technologique basé sur Markdown.
 
 ![Tech Radar Coda](img/tech-radar.webp)
 
-## Ajouter un item en 5 minutes
+## Ajouter un item en 1 minute
 
 1. Créer un fichier dans `content/<quadrant>/nom-technologie.md`
-2. Remplir le frontmatter YAML
+2. Remplir le `frontmatter` YAML
 3. Écrire le contenu Markdown
-4. Ouvrir une Pull Request
+4. Push
 
 ```
 content/
