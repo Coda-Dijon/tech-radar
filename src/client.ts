@@ -176,15 +176,16 @@ function renderRadar(): void {
     t.textContent = RING_SHORT_LABELS[ring].toUpperCase();
   });
 
-  // Quadrant labels (corners)
-  const qLabels: { q: Quadrant; x: number; y: number; lines: string[] }[] = [
-    { q: 'languages-frameworks', x:  195, y: -250, lines: ['Languages &', 'Frameworks'] },
-    { q: 'platforms',            x: -195, y: -250, lines: ['Platforms'] },
-    { q: 'techniques',           x: -195, y:  268, lines: ['Techniques'] },
-    { q: 'tools',                x:  195, y:  268, lines: ['Tools'] },
+  // Quadrant labels — positioned outside the outermost ring (r=380) at each corner diagonal
+  // distance from centre ≈ 295√2 ≈ 417, safely within the 800×800 viewBox
+  const qLabels: { q: Quadrant; x: number; y: number; anchor: string; lines: string[] }[] = [
+    { q: 'languages-frameworks', x:  325, y: -325, anchor: 'middle', lines: ['Languages &', 'Frameworks'] },
+    { q: 'platforms',            x: -325, y: -325, anchor: 'middle', lines: ['Platforms'] },
+    { q: 'techniques',           x: -325, y:  325, anchor: 'middle', lines: ['Techniques'] },
+    { q: 'tools',                x:  325, y:  325, anchor: 'middle', lines: ['Tools'] },
   ];
 
-  for (const { q, x, y, lines } of qLabels) {
+  for (const { q, x, y, anchor, lines } of qLabels) {
     const isActive = !activeQ || activeQ === q;
     const ariaLabel = activeQ === q
       ? `Reset filter — ${QUADRANT_NAMES[q]}`
@@ -201,11 +202,13 @@ function renderRadar(): void {
     labelG.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
     });
+    // Offset multi-line labels so the block is centred on y
+    const offsetY = -(lines.length - 1) * 17 / 2;
     lines.forEach((line, pi) => {
       const t = svgEl<SVGTextElement>('text', {
-        x: String(x), y: String(y + pi * 17), 'text-anchor': 'middle',
+        x: String(x), y: String(y + offsetY + pi * 17), 'text-anchor': anchor,
         fill: isActive ? '#ffffff' : '#342068',
-        'font-size': '13', 'font-weight': '700',
+        'font-size': '16', 'font-weight': '700',
         'font-family': 'Epilogue,system-ui,sans-serif',
       }, labelG);
       t.textContent = line;
