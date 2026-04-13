@@ -142,6 +142,7 @@ header[role="banner"] {
   border: none;
   background: none;
   white-space: nowrap;
+  text-decoration: none;
   transition: color .15s, background .15s;
 }
 .nav-tab:hover  { color: var(--text); background: var(--surface2); }

@@ -7,4 +7,4 @@ date: 2023-06-01
 description: Opinionated full-featured framework — complexity and bundle size outweigh benefits for our use cases
 ---
 
-![goat-aoc.webp](img/goat-aoc.webp)
+Sample d'images : ![Logo Angular](img/angular.webp)

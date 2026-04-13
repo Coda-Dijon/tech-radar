@@ -25,6 +25,15 @@ function header(base: string, extra = ''): string {
 </header>`;
 }
 
+function staticNavTabs(base: string, activeQuadrant?: Quadrant): string {
+  return `<nav class="nav-tabs" aria-label="Filter by quadrant">
+    <a class="nav-tab${!activeQuadrant ? ' active' : ''}" href="${base}/">All</a>
+    ${([...Object.entries(QUADRANT_NAMES)] as [Quadrant, string][])
+      .map(([q, name]) => `<a class="nav-tab${activeQuadrant === q ? ' active' : ''}" href="${base}/${q}/">${escHtml(name)}</a>`)
+      .join('')}
+  </nav>`;
+}
+
 function badge(ring: Ring): string {
   return `<span class="badge badge-${ring}">${RING_LABELS[ring]}</span>`;
 }
@@ -141,14 +150,9 @@ export function renderItemPage(item: Item, allItems: Item[], base: string): stri
 ${sharedHead(base)}
 </head>
 <body class="is-page">
-${header(base)}
+${header(base, staticNavTabs(base, item.quadrant))}
 <main>
 <article class="page-wrap" aria-labelledby="item-title">
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="${base}/">Radar</a><span class="bc-sep" aria-hidden="true">›</span>
-    <a href="${base}/${item.quadrant}/">${escHtml(QUADRANT_NAMES[item.quadrant])}</a><span class="bc-sep" aria-hidden="true">›</span>
-    <span aria-current="page">${escHtml(item.title)}</span>
-  </nav>
   <h1 id="item-title" class="detail-title">${escHtml(item.title)}</h1>
   <div class="detail-meta">
     ${badge(item.ring)}
@@ -203,13 +207,9 @@ export function renderQuadrantPage(quadrant: Quadrant, allItems: Item[], base: s
 ${sharedHead(base)}
 </head>
 <body class="is-page">
-${header(base)}
+${header(base, staticNavTabs(base, quadrant))}
 <main>
   <header class="qpage-header">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="${base}/">Radar</a><span class="bc-sep" aria-hidden="true">›</span>
-      <span aria-current="page">${escHtml(name)}</span>
-    </nav>
     <h1 class="qpage-title">${escHtml(name)}</h1>
     <p class="qpage-desc">${count} ${count > 1 ? 'technologies' : 'technology'} assessed</p>
   </header>
