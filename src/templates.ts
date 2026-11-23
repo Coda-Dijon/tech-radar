@@ -25,6 +25,12 @@ function header(base: string, extra = ''): string {
 </header>`;
 }
 
+function footer(): string {
+  return `<footer class="site-footer" role="contentinfo">
+  <p>Made in 2026 by Yoan Thirion — <span class="footer-brand">Coda_</span></p>
+</footer>`;
+}
+
 function staticNavTabs(base: string, activeQuadrant?: Quadrant): string {
   return `<nav class="nav-tabs" aria-label="Filter by quadrant">
     <a class="nav-tab${!activeQuadrant ? ' active' : ''}" href="${base}/">All</a>
@@ -107,6 +113,7 @@ ${header(base, tabs)}
     <div id="sidebar-body" class="sidebar-body" aria-live="polite" aria-atomic="false"></div>
   </aside>
 </main>
+${footer()}
 
 <div id="tip" role="tooltip" aria-hidden="true">
   <div class="tip-name"></div>
@@ -165,6 +172,7 @@ ${header(base, staticNavTabs(base, item.quadrant))}
   ${relatedHtml}
 </article>
 </main>
+${footer()}
 </body>
 </html>`;
 }
@@ -215,6 +223,7 @@ ${header(base, staticNavTabs(base, quadrant))}
   </header>
   <div class="qpage-content">${ringGroups}</div>
 </main>
+${footer()}
 </body>
 </html>`;
 }

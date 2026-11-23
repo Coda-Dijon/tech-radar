@@ -70,8 +70,14 @@ const QUADRANT_ANGLES: Record<Quadrant, [number, number]> = {
   'tools':                [0,             Math.PI / 2],
 };
 
+/** Ring band backgrounds, inner → outer (adopt = 45 % lime over white). */
+const RING_BG = ['#eef9b0', '#f2f2f2', '#ffffff', '#f2f2f2'] as const;
+
+/** Minimum distance (px) between a blip centre and the ring labels on the positive x-axis. */
+const AXIS_CLEARANCE = 17;
+
 const RING_BOUNDS: Record<Ring, [number, number]> = {
-  adopt:  [15, 90],
+  adopt:  [25, 90],
   'can-use': [112, 188],
   assess: [212, 288],
   hold:   [312, 370],
@@ -79,9 +85,9 @@ const RING_BOUNDS: Record<Ring, [number, number]> = {
 
 /**
  * Precompute blip positions for all items.
- * Per quadrant+ring group, items are sorted alphabetically then distributed
- * evenly across the angular span. Odd-indexed items use an inner radial track,
- * even-indexed items use an outer track. A tiny hash-based jitter breaks
+ * Per quadrant+ring group, items are sorted alphabetically, split between an
+ * inner and an outer radial track (proportionally to their radius), then
+ * distributed evenly across the angular span of their track. A tiny hash-based jitter breaks
  * perfect alignment without causing collisions.
  */
 function computeBlipPositions(items: Item[]): Map<string, { x: number; y: number }> {
@@ -98,19 +104,32 @@ function computeBlipPositions(items: Item[]): Map<string, { x: number; y: number
       const [angStart, angEnd] = QUADRANT_ANGLES[q];
       const [rMin, rMax]       = RING_BOUNDS[ring];
       const n   = group.length;
-      const pad = 0.10; // angular padding fraction on each side
+      const span = angEnd - angStart;
+
+      // Two radial tracks (30 % / 70 % of the band). Items are shared between them
+      // in proportion to each track's radius, so the shorter inner arc gets fewer blips.
+      const trackR = (frac: number) => rMin + frac * (rMax - rMin);
+      const nIn    = n === 1 ? 0 : Math.round(n * trackR(0.3) / (trackR(0.3) + trackR(0.7)));
+      const isInner = (i: number) => Math.floor((i + 1) * nIn / n) > Math.floor(i * nIn / n);
+      const counters = { inner: 0, outer: 0 };
 
       group.forEach((item, i) => {
-        // Evenly distribute angles within the padded span
-        const t     = (i + 0.5) / n;
-        const angle = angStart + pad * (angEnd - angStart) + t * (1 - 2 * pad) * (angEnd - angStart);
-
-        // Alternate inner (30 %) / outer (70 %) radial tracks; single items use 50 %
-        const track  = n === 1 ? 0.5 : (i % 2 === 0 ? 0.3 : 0.7);
+        const inner  = isInner(i);
+        const k      = inner ? counters.inner++ : counters.outer++;
+        const nTrack = inner ? nIn : n - nIn;
+        const track  = n === 1 ? 0.5 : (inner ? 0.3 : 0.7);
         // ±4 % jitter so items don't line up perfectly
         const jitter = ((simpleHash(`${item.title}|${item.quadrant}`) % 100) / 100 - 0.5) * 0.08;
         const rFrac  = Math.max(0.05, Math.min(0.95, track + jitter));
-        const r      = rMin + rFrac * (rMax - rMin);
+        const r      = trackR(rFrac);
+
+        // Angular padding: 10 % of the span on each side, widened on the side that
+        // touches the positive x-axis so blips keep AXIS_CLEARANCE px from the ring labels
+        const labelPad = Math.min(0.35, AXIS_CLEARANCE / (r * Math.abs(span)));
+        const padStart = Math.max(0.10, angStart === 0 ? labelPad : 0);
+        const padEnd   = Math.max(0.10, angEnd   === 0 ? labelPad : 0);
+        const t     = (k + 0.5) / nTrack;
+        const angle = angStart + (padStart + t * (1 - padStart - padEnd)) * span;
 
         map.set(`${item.slug}|${item.quadrant}`, { x: r * Math.cos(angle), y: r * Math.sin(angle) });
       });
@@ -154,24 +173,26 @@ function renderRadar(): void {
     const ri = RINGS.length - 1 - i;
     svgEl('circle', {
       r: String(RING_R[ri]),
-      fill: ringColor(ring), 'fill-opacity': '0.07',
-      stroke: ringColor(ring), 'stroke-opacity': '0.3', 'stroke-width': '1.5',
+      fill: RING_BG[ri]!,
+      stroke: '#0a0a0a', 'stroke-width': '2',
     }, g);
   });
 
   // Quadrant axes
-  svgEl('line', { x1: '-385', y1: '0', x2: '385', y2: '0', stroke: '#2a1668', 'stroke-width': '1' }, g);
-  svgEl('line', { x1: '0', y1: '-385', x2: '0', y2: '385', stroke: '#2a1668', 'stroke-width': '1' }, g);
+  svgEl('line', { x1: '-385', y1: '0', x2: '385', y2: '0', stroke: '#0a0a0a', 'stroke-width': '2' }, g);
+  svgEl('line', { x1: '0', y1: '-385', x2: '0', y2: '385', stroke: '#0a0a0a', 'stroke-width': '2' }, g);
 
   // Labels des anneaux (sur l'axe x positif)
   ;([...RINGS] as Ring[]).forEach((ring, i) => {
     const inner = i === 0 ? 0 : RING_R[i - 1];
     const mid   = (inner + RING_R[i]) / 2;
     const t = svgEl<SVGTextElement>('text', {
-      x: String(mid), y: '-8', 'text-anchor': 'middle',
-      fill: ringColor(ring), 'fill-opacity': '0.8',
-      'font-size': '10', 'font-weight': '700', 'letter-spacing': '1.5',
-      'font-family': 'Epilogue,system-ui,sans-serif',
+      x: String(mid), y: '0', 'text-anchor': 'middle', 'dominant-baseline': 'central',
+      fill: '#0a0a0a',
+      'font-size': '11', 'font-weight': '700', 'letter-spacing': '1.5',
+      'font-family': "'Atkinson Hyperlegible Mono Variable',ui-monospace,monospace",
+      // Halo in the ring's background colour masks the axis line behind the label
+      stroke: RING_BG[i]!, 'stroke-width': '6', 'paint-order': 'stroke', 'stroke-linejoin': 'miter',
     }, g);
     t.textContent = RING_SHORT_LABELS[ring].toUpperCase();
   });
@@ -207,9 +228,9 @@ function renderRadar(): void {
     lines.forEach((line, pi) => {
       const t = svgEl<SVGTextElement>('text', {
         x: String(x), y: String(y + offsetY + pi * 17), 'text-anchor': anchor,
-        fill: isActive ? '#ffffff' : '#342068',
-        'font-size': '16', 'font-weight': '700',
-        'font-family': 'Epilogue,system-ui,sans-serif',
+        fill: isActive ? '#0a0a0a' : '#b3b3b3',
+        'font-size': '17', 'font-weight': '700',
+        'font-family': "'Lexend Variable',system-ui,sans-serif",
       }, labelG);
       t.textContent = line;
     });
@@ -225,7 +246,7 @@ function renderRadar(): void {
     if (isSel) {
       svgEl('circle', {
         cx: String(pos.x), cy: String(pos.y), r: '15',
-        fill: 'none', stroke: ringColor(item.ring), 'stroke-width': '1.5', 'stroke-dasharray': '4,3',
+        fill: 'none', stroke: '#0a0a0a', 'stroke-width': '2', 'stroke-dasharray': '4,3',
       }, g);
     }
 
@@ -239,8 +260,8 @@ function renderRadar(): void {
     }, g);
     svgEl('circle', {
       r: isSel ? '9' : '7',
-      fill: ringColor(item.ring), 'fill-opacity': isSel ? '1' : '0.9',
-      stroke: 'rgba(255,255,255,0.2)', 'stroke-width': '1',
+      fill: ringColor(item.ring),
+      stroke: '#0a0a0a', 'stroke-width': isSel ? '2.5' : '1.5',
     }, blipG);
 
     blipG.addEventListener('click',        () => showDetail(item));
